@@ -57,12 +57,13 @@ contract VoteSystem {
     }
 
     modifier onlyOwner() {
-        if (msg.sender == i_owner) revert NotOwner();
+        if (msg.sender != i_owner) revert NotOwner();
         _;
     }
 
     /**
      * @notice Adds a candidate to the candidates list for the election
+     * @param _name the name of the candidate
      * @dev Increments the number of candidates in the candidate list
      */
     function addCandidate(string memory _name) public onlyOwner {
@@ -72,6 +73,7 @@ contract VoteSystem {
 
     /**
      * @notice Authorizes voters for the voting exercise
+     * @param _person the index of the voter
      * @dev Increments the number of authorized voters
      */
     function authorizeVoter(address _person) public onlyOwner {
@@ -82,6 +84,7 @@ contract VoteSystem {
 
     /**
      * @notice Authorised voters are allowed to cast their votes
+     * @param candidateId the index of the candidate
      * @dev Increments the candidates vote count, and marks voter to have voted
      */
     function vote(uint256 candidateId) public {
@@ -114,5 +117,30 @@ contract VoteSystem {
         }
 
         votingEnded = true;
+    }
+
+    /**
+     * @notice A view function that returns contract owner
+     */
+    function getOwner() public view returns (address) {
+        return i_owner;
+    }
+
+    /**
+     * @notice returns a voter
+     * @param voterAddress of the voter
+     */
+    function getVoter(address voterAddress) public view returns (Voter memory) {
+        return voters[voterAddress];
+    }
+
+    /**
+     * @notice returns a candidate
+     * @param index of the candidate
+     */
+    function getCandidate(
+        uint256 index
+    ) public view returns (Candidate memory) {
+        return candidates[index];
     }
 }
