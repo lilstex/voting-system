@@ -2,8 +2,15 @@
   "name": "voting-system",
   "packageManager": "yarn@4.2.2",
   "scripts": {
-    "lint": "yarn prettier --check .",
-    "lint:fix": "yarn prettier --write ."
+    "lint:js": "yarn prettier --check .",
+    "fix:js": "yarn prettier --write .",
+    "lint:contract": "yarn solhint 'contracts/*.sol",
+    "fix:contract": "yarn solhint 'contracts/*.sol --fix",
+    "compile": "yarn hardhat compile",
+    "clean": "yarn hardhat clean",
+    "test": "yarn hardhat test",
+    "test:staging": "yarn hardhat test --network sepolia",
+    "coverage": "yarn hardhat coverage"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",

@@ -15,7 +15,7 @@ contract VoteSystem {
      */
     struct Candidate {
         uint256 id;
-        string name;
+        address candidateAddress;
         uint256 voteCount;
     }
 
@@ -44,7 +44,7 @@ contract VoteSystem {
      */
     event VoteResult(
         uint256 candidateId,
-        string candidateName,
+        address candidateAddress,
         uint256 voteCount
     );
 
@@ -63,23 +63,27 @@ contract VoteSystem {
 
     /**
      * @notice Adds a candidate to the candidates list for the election
-     * @param _name the name of the candidate
+     * @param _candidateAddress the name of the candidate
      * @dev Increments the number of candidates in the candidate list
      */
-    function addCandidate(string memory _name) public onlyOwner {
+    function addCandidate(address _candidateAddress) public onlyOwner {
         candidatesCount++;
-        candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
+        candidates[candidatesCount] = Candidate(
+            candidatesCount,
+            _candidateAddress,
+            0
+        );
     }
 
     /**
      * @notice Authorizes voters for the voting exercise
-     * @param _person the index of the voter
+     * @param _voterAddress the index of the voter
      * @dev Increments the number of authorized voters
      */
-    function authorizeVoter(address _person) public onlyOwner {
+    function authorizeVoter(address _voterAddress) public onlyOwner {
         require(!votingEnded, "Voting has already ended.");
         totalVoters++;
-        voters[_person].authorised = true;
+        voters[_voterAddress].authorised = true;
     }
 
     /**
@@ -111,7 +115,7 @@ contract VoteSystem {
         for (uint256 i = 1; i <= candidatesCount; i++) {
             emit VoteResult(
                 candidates[i].id,
-                candidates[i].name,
+                candidates[i].candidateAddress,
                 candidates[i].voteCount
             );
         }
