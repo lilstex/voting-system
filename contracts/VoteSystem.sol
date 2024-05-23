@@ -29,6 +29,7 @@ contract VoteSystem {
         uint256 vote;
     }
 
+    Candidate[] public allCandidates;
     address public i_owner;
     string public electionName;
     uint256 public candidatesCount;
@@ -146,5 +147,22 @@ contract VoteSystem {
         uint256 index
     ) public view returns (Candidate memory) {
         return candidates[index];
+    }
+
+    /**
+     * @notice returns all candidates
+     */
+    function getAllCandidates() public view returns (Candidate[] memory) {
+        for (uint256 i = 1; i <= candidatesCount; i++) {
+            allCandidates.push(
+                Candidate(
+                    candidates[i].id,
+                    candidates[i].candidateAddress,
+                    candidates[i].voteCount
+                )
+            );
+        }
+
+        return allCandidates;
     }
 }

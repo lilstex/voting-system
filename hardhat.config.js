@@ -4,7 +4,16 @@ require("dotenv").config()
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-    solidity: "0.8.19",
+    solidity: {
+        compilers: [
+            {
+                version: "0.8.19",
+            },
+            {
+                version: "0.6.6",
+            },
+        ],
+    },
     defaultNetwork: "hardhat",
     networks: {
         hardhat: {
@@ -20,16 +29,6 @@ module.exports = {
             url: "http://localhost:8545",
             chainId: 31337,
         },
-    },
-    solidity: {
-        compilers: [
-            {
-                version: "0.8.19",
-            },
-            {
-                version: "0.6.6",
-            },
-        ],
     },
     etherscan: {
         apiKey: process.env.ETHERSCAN_API_KEY,
